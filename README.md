@@ -86,8 +86,6 @@ http://127.0.0.1:8000/
 
 <img width="1920" height="1080" alt="Screenshot 2025-08-24 034709" src="https://github.com/user-attachments/assets/36fecb4d-5ec6-4df4-82d2-ae214358afa5" />
 
-<img width="1920" height="1080" alt="Screenshot 2025-08-24 034743" src="https://github.com/user-attachments/assets/9f7196f7-afb7-458d-bfa2-706f78e5437f" />
-
 <img width="1920" height="1080" alt="Screenshot 2025-08-24 034743" src="https://github.com/user-attachments/assets/9a528a8e-58e7-4eca-98ef-cf0fe0c07435" />
 
 <img width="1920" height="1080" alt="Screenshot 2025-08-24 034935" src="https://github.com/user-attachments/assets/1538b8c8-f544-41e0-b0ec-08fea7e195eb" />
@@ -148,5 +146,6 @@ Claim the code as your own work
 Any use of this project without explicit written permission from the author is strictly prohibited.
 
 The project is provided for demonstration and educational purposes only, without any warranty of any kind.
+
 
 
