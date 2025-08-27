@@ -47,8 +47,7 @@ Follow the steps to set up the project locally:
 
 Clone the repository
 
-git clone https://github.com/your-username/job-pulse.git
-cd job-pulse
+git clone https://github.com/Amitesh-god-of-infinity/job_portal.git
 
 
 Create and activate virtual environment
@@ -146,6 +145,7 @@ Claim the code as your own work
 Any use of this project without explicit written permission from the author is strictly prohibited.
 
 The project is provided for demonstration and educational purposes only, without any warranty of any kind.
+
 
 
 
