@@ -1,0 +1,371 @@
+{% load static %}
+
+{% block body %}
+
+{% include 'recuiter_navigation.html' %}
+
+<title>Jobs with Applications | Job Pulse</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5649c0;
+        --secondary: #00cec9;
+        --dark: #1a1a2e;
+        --darker: #0f0e17;
+        --light: #f5f6fa;
+        --error: #ff4757;
+        --success: #00b894;
+        --warning: #f39c12;
+    }
+
+    body {
+        background-color: var(--darker);
+        color: var(--light);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-image: 
+            radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.15) 0%, transparent 30%),
+            radial-gradient(circle at 75% 75%, rgba(0, 206, 201, 0.15) 0%, transparent 30%);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .jobs-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 200px auto;
+        padding: 2rem;
+        background: rgba(26, 26, 46, 0.85);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .page-header i {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .page-header h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary) 0%, #9c27b0 50%, var(--secondary) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+        color: rgba(255, 255, 255, 0.7);
+        margin: 0;
+    }
+
+    .stats-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.2);
+        border-color: var(--primary);
+    }
+
+    .stat-card i {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--light);
+    }
+
+    .stat-card p {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--secondary);
+        margin: 0;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: rgba(26, 26, 46, 0.5);
+    }
+
+    th, td {
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    th {
+        background: linear-gradient(to right, var(--primary-dark), var(--primary));
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+
+    tr {
+        transition: background-color 0.3s ease;
+    }
+
+    tr:hover {
+        background-color: rgba(108, 92, 231, 0.1);
+    }
+
+    .btn {
+        padding: 0.8rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-view {
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        color: white;
+    }
+
+    .btn-view:hover {
+        background: linear-gradient(to right, var(--secondary), var(--primary));
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+        color: white;
+    }
+
+    .btn-back {
+        display: block;
+        width: fit-content;
+        margin: 2rem auto 0;
+        padding: 0.8rem 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.8);
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-back:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(108, 92, 231, 0.2);
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--light);
+    }
+
+    .job-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .status-active {
+        background: rgba(0, 184, 148, 0.15);
+        color: var(--success);
+    }
+
+    .status-closed {
+        background: rgba(255, 71, 87, 0.15);
+        color: var(--error);
+    }
+
+    @media (max-width: 768px) {
+        .jobs-container {
+            padding: 1rem;
+            margin: 1rem;
+        }
+        
+        .stats-cards {
+            grid-template-columns: 1fr;
+        }
+        
+        th, td {
+            padding: 0.75rem 0.5rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<div class="jobs-container">
+    <div class="page-header">
+        <i class="fas fa-user-check"></i>
+        <h1>Job Pulse</h1>
+        <p>Jobs with Candidate Applications</p>
+    </div>
+
+    <div class="stats-cards">
+        <div class="stat-card">
+            <i class="fas fa-briefcase"></i>
+            <h3>Total Jobs</h3>
+            <p>{{ data|length }}</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-users"></i>
+            <h3>Active Jobs</h3>
+            <p>{{ data|length }}</p> {# Update with actual active count if available #}
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-file-alt"></i>
+            <h3>Total Applications</h3>
+            <p>0</p> {# Update with actual application count if available #}
+        </div>
+    </div>
+
+    <div class="table-container">
+        {% if data %}
+        <table>
+            <thead>
+                <tr>
+                    <th>S. No.</th>
+                    <th>Job Title</th>
+                    <th>Creation Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.title }}</td>
+                    <td>{{ i.creationdate }}</td>
+                    <td>
+                        <span class="job-status status-active">
+                            <i class="fas fa-circle"></i> Active
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'applied_condidate_list' i.id %}" class="btn btn-view">
+                            <i class="fas fa-eye"></i> View Candidates
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-briefcase"></i>
+            <h3>No Jobs with Applications</h3>
+            <p>You don't have any jobs that have received applications yet.</p>
+            <p>Create more job postings or promote your existing ones to attract candidates.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <a href="{% url 'recuiter_home' %}" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+</div>
+
+<script>
+    // Add some interactive elements
+    document.addEventListener('DOMContentLoaded', function() {
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            row.addEventListener('click', function(e) {
+                if (!e.target.closest('a')) {
+                    this.style.backgroundColor = 'rgba(108, 92, 231, 0.15)';
+                    setTimeout(() => {
+                        this.style.backgroundColor = '';
+                    }, 300);
+                }
+            });
+        });
+
+        // Add status indicators based on dates (example logic)
+        const today = new Date();
+        rows.forEach(row => {
+            const dateCell = row.querySelector('td:nth-child(3)');
+            if (dateCell) {
+                const statusElement = row.querySelector('.job-status');
+                // This is example logic - you would need to implement actual status checking
+                // based on your job model's start and end dates
+                const creationDate = new Date(dateCell.textContent);
+                const daysSinceCreation = Math.floor((today - creationDate) / (1000 * 60 * 60 * 24));
+                
+                if (daysSinceCreation > 30) {
+                    statusElement.className = 'job-status status-closed';
+                    statusElement.innerHTML = '<i class="fas fa-circle"></i> Closed';
+                }
+            }
+        });
+    });
+</script>
+
+{% include 'footer.html' %}
+
+{% endblock %}
+
+

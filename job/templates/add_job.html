@@ -1,0 +1,569 @@
+{% load static %}
+
+{% block body %}
+
+{% include 'recuiter_navigation.html' %}
+
+<title>Post New Job | Job Pulse</title>
+
+
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5649c0;
+        --secondary: #00cec9;
+        --dark: #1a1a2e;
+        --darker: #0f0e17;
+        --light: #f5f6fa;
+        --error: #ff4757;
+        --success: #00b894;
+    }
+
+    body {
+        background-color: var(--darker);
+        color: var(--light);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-image: 
+            radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.15) 0%, transparent 30%),
+            radial-gradient(circle at 75% 75%, rgba(0, 206, 201, 0.15) 0%, transparent 30%);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .job-container {
+        width: 100%;
+        max-width: 900px;
+        {% comment %} margin-top: 100px auto ; {% endcomment %}
+        margin: 200px auto;
+        padding: 2.5rem;
+        background: rgba(26, 26, 46, 0.85);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .page-header i {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .page-header h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary) 0%, #9c27b0 50%, var(--secondary) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .form-row {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        flex: 1;
+        margin-bottom: 1.8rem;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.8rem;
+        color: rgba(255, 255, 255, 0.8);
+        transition: color 0.3s;
+    }
+
+    .form-group:hover label {
+        color: var(--secondary);
+    }
+
+    .input-field, .textarea-field {
+        width: 100%;
+        padding: 14px 14px 14px 42px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: var(--light);
+        transition: all 0.4s;
+        font-family: inherit;
+    }
+
+    .textarea-field {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .input-field:focus, .textarea-field:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+        background: rgba(124, 77, 255, 0.05);
+        padding-left: 46px;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.4);
+        transition: all 0.3s;
+    }
+
+    .textarea-icon {
+        position: absolute;
+        left: 15px;
+        top: 24px;
+        color: rgba(255, 255, 255, 0.4);
+        transition: all 0.3s;
+    }
+
+    .form-group:hover .input-icon,
+    .input-field:focus ~ .input-icon,
+    .form-group:hover .textarea-icon,
+    .textarea-field:focus ~ .textarea-icon {
+        color: var(--secondary);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .file-input-container {
+        position: relative;
+    }
+
+    .file-input-label {
+        display: block;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        transition: all 0.4s;
+    }
+
+    .file-input-label:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--primary);
+    }
+
+    .file-input-label i {
+        margin-right: 8px;
+    }
+
+    input[type="file"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .file-name {
+        margin-top: 8px;
+        font-size: 0.85rem;
+        color: var(--secondary);
+    }
+
+    .btn-container {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .btn-submit, .btn-cancel {
+        flex: 1;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.05rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn-submit {
+        background: linear-gradient(115deg, var(--primary) 0%, #8e44ad 50%, var(--secondary) 100%);
+        background-size: 200% auto;
+        color: white;
+    }
+
+    .btn-cancel {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-submit:hover, .btn-cancel:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+    }
+
+    .btn-submit:hover {
+        background-position: right center;
+    }
+
+    .btn-cancel:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-submit i, .btn-cancel i {
+        transition: transform 0.3s;
+    }
+
+    .btn-submit:hover i {
+        transform: translateX(3px);
+    }
+
+    .btn-cancel:hover i {
+        transform: scale(1.1);
+    }
+
+    .validation-error {
+        color: var(--error);
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: none;
+    }
+    
+    .validation-success {
+        color: var(--success);
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: none;
+    }
+    
+    .input-field.error, .textarea-field.error {
+        border-color: var(--error);
+        box-shadow: 0 0 0 2px rgba(255, 71, 87, 0.2);
+    }
+    
+    .input-field.success, .textarea-field.success {
+        border-color: var(--success);
+        box-shadow: 0 0 0 2px rgba(0, 184, 148, 0.2);
+    }
+
+    .required-field::after {
+        content: " *";
+        color: var(--error);
+    }
+
+    @media (max-width: 768px) {
+        .job-container {
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+        
+        .form-row {
+            flex-direction: column;
+            gap: 0;
+        }
+        
+        .btn-container {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="job-container">
+    <div class="page-header">
+        <i class="fas fa-briefcase"></i>
+        <h1>Job Pulse</h1>
+        <p>Post a New Job Opportunity</p>
+    </div>
+
+    <form onsubmit="return validateJobForm();" name="jobform" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label class="required-field">Job Title</label>
+            <i class='bx bx-pencil input-icon'></i>
+            <input type="text" class="input-field" name="jobtitle" placeholder="Enter Job Title" required>
+            <div class="validation-error" id="jobtitle-error">Please enter a job title</div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="required-field">Start Date</label>
+                <i class='bx bx-calendar input-icon'></i>
+                <input type="date" class="input-field" name="startdate" required>
+                <div class="validation-error" id="startdate-error">Please select a start date</div>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">End Date</label>
+                <i class='bx bx-calendar input-icon'></i>
+                <input type="date" class="input-field" name="enddate" required>
+                <div class="validation-error" id="enddate-error">Please select an end date</div>
+                <div class="validation-error" id="datecompare-error">End date must be after start date</div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="required-field">Salary (Per Month)</label>
+                <i class='bx bx-dollar input-icon'></i>
+                <input type="text" class="input-field" id="salary" name="salary" placeholder="Enter Salary" required>
+                <div class="validation-error" id="salary-error">Please enter a valid salary</div>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Company Logo</label>
+                <div class="file-input-container">
+                    <div class="file-input-label">
+                        <i class='bx bx-upload'></i>
+                        <span>Choose company logo (JPG, PNG)</span>
+                    </div>
+                    <input type="file" id="logo" name="logo" accept="image/*" required>
+                </div>
+                <div id="logo-name" class="file-name"></div>
+                <div class="validation-error" id="logo-error">Please select an image file (JPG, PNG)</div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="required-field">Experience (In Years)</label>
+                <i class='bx bx-time input-icon'></i>
+                <input type="text" class="input-field" id="experience" name="experience" placeholder="Enter Experience" required>
+                <div class="validation-error" id="experience-error">Please enter valid experience</div>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Location</label>
+                <i class='bx bx-map input-icon'></i>
+                <input type="text" class="input-field" name="location" placeholder="Job Location" required>
+                <div class="validation-error" id="location-error">Please enter a location</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="required-field">Skills Required</label>
+            <i class='bx bx-code-alt input-icon'></i>
+            <input type="text" class="input-field" name="skills" placeholder="Skills Required (e.g., Python, JavaScript, React)" required>
+            <div class="validation-error" id="skills-error">Please enter required skills</div>
+        </div>
+
+        <div class="form-group">
+            <label class="required-field">Job Description</label>
+            <i class='bx bx-detail textarea-icon'></i>
+            <textarea class="textarea-field" name="description" placeholder="Enter detailed job description..." required></textarea>
+            <div class="validation-error" id="description-error">Please enter a job description</div>
+        </div>
+        
+        <div class="btn-container">
+            <button type="submit" class="btn-submit" id="submit-btn">
+                <i class='bx bx-plus-circle'></i> Post Job
+            </button>
+            
+            <a href="{% url 'job_list' %}" class="btn-cancel">
+                <i class='bx bx-x'></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Get form elements
+    const startDateInput = document.querySelector('input[name="startdate"]');
+    const endDateInput = document.querySelector('input[name="enddate"]');
+    const salaryInput = document.getElementById('salary');
+    const experienceInput = document.getElementById('experience');
+    const logoInput = document.getElementById('logo');
+    const logoName = document.getElementById('logo-name');
+    const form = document.forms.jobform;
+    
+    // Set minimum dates to today
+    const today = new Date().toISOString().split('T')[0];
+    startDateInput.setAttribute('min', today);
+    endDateInput.setAttribute('min', today);
+    
+    // Update end date min when start date changes
+    startDateInput.addEventListener('change', function() {
+        endDateInput.setAttribute('min', this.value);
+    });
+    
+    // Show selected file name
+    logoInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            logoName.textContent = this.files[0].name;
+        } else {
+            logoName.textContent = '';
+        }
+    });
+    
+    // Validation functions
+    function validateSalary(salary) {
+        const salaryRegex = /^\d+(\.\d{1,2})?$/;
+        return salaryRegex.test(salary);
+    }
+    
+    function validateExperience(experience) {
+        const expRegex = /^\d+(\.\d{1,2})?$/;
+        return expRegex.test(experience);
+    }
+    
+    function validateImage(file) {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        return file && allowedTypes.includes(file.type);
+    }
+    
+    function validateDates(startDate, endDate) {
+        return new Date(startDate) < new Date(endDate);
+    }
+    
+    // Real-time validation
+    salaryInput.addEventListener('input', function() {
+        if (validateSalary(this.value)) {
+            showValidation(this, true, 'salary');
+        } else {
+            showValidation(this, false, 'salary');
+        }
+    });
+    
+    experienceInput.addEventListener('input', function() {
+        if (validateExperience(this.value)) {
+            showValidation(this, true, 'experience');
+        } else {
+            showValidation(this, false, 'experience');
+        }
+    });
+    
+    logoInput.addEventListener('change', function() {
+        if (validateImage(this.files[0])) {
+            showValidation(this, true, 'logo');
+        } else {
+            showValidation(this, false, 'logo');
+        }
+    });
+    
+    startDateInput.addEventListener('change', function() {
+        validateDateComparison();
+    });
+    
+    endDateInput.addEventListener('change', function() {
+        validateDateComparison();
+    });
+    
+    function validateDateComparison() {
+        const dateCompareError = document.getElementById('datecompare-error');
+        if (startDateInput.value && endDateInput.value) {
+            if (validateDates(startDateInput.value, endDateInput.value)) {
+                dateCompareError.style.display = 'none';
+                showValidation(startDateInput, true, 'startdate');
+                showValidation(endDateInput, true, 'enddate');
+            } else {
+                dateCompareError.style.display = 'block';
+                showValidation(startDateInput, false, 'startdate');
+                showValidation(endDateInput, false, 'enddate');
+            }
+        }
+    }
+    
+    // Show validation status
+    function showValidation(element, isValid, fieldName) {
+        const errorElement = document.getElementById(fieldName + '-error');
+        const successElement = document.getElementById(fieldName + '-success');
+        
+        if (isValid) {
+            element.classList.remove('error');
+            element.classList.add('success');
+            if (errorElement) errorElement.style.display = 'none';
+            if (successElement) successElement.style.display = 'block';
+        } else {
+            element.classList.remove('success');
+            element.classList.add('error');
+            if (errorElement) errorElement.style.display = 'block';
+            if (successElement) successElement.style.display = 'none';
+        }
+    }
+    
+    // Form submission validation
+    function validateJobForm() {
+        let isValid = true;
+        
+        // Validate salary
+        if (!validateSalary(salaryInput.value)) {
+            showValidation(salaryInput, false, 'salary');
+            isValid = false;
+        }
+        
+        // Validate experience
+        if (!validateExperience(experienceInput.value)) {
+            showValidation(experienceInput, false, 'experience');
+            isValid = false;
+        }
+        
+        // Validate logo
+        if (!validateImage(logoInput.files[0])) {
+            showValidation(logoInput, false, 'logo');
+            isValid = false;
+        }
+        
+        // Validate dates
+        if (startDateInput.value && endDateInput.value) {
+            if (!validateDates(startDateInput.value, endDateInput.value)) {
+                document.getElementById('datecompare-error').style.display = 'block';
+                showValidation(startDateInput, false, 'startdate');
+                showValidation(endDateInput, false, 'enddate');
+                isValid = false;
+            }
+        }
+        
+        if (!isValid) {
+            // Scroll to first error
+            const firstError = document.querySelector('.error');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+        
+        return isValid;
+    }
+</script>
+
+{% include 'footer.html' %}
+
+{% if error == "no" %}
+<script>
+    alert("Job Added Successfully");
+    window.location = ('{% url 'job_list' %}');
+</script>
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    alert("Something Went Wrong, Try Again...");
+</script>
+{% endif %}
+
+{% endblock %}

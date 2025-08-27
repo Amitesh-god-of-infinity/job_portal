@@ -1,0 +1,478 @@
+{% load static %}
+
+{% block body %}
+
+{% include 'admin_navigation.html' %}
+
+<title>Admin Dashboard | Job Pulse</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+<style>
+    :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5649c0;
+        --secondary: #00cec9;
+        --dark: #1a1a2e;
+        --darker: #0f0e17;
+        --light: #f5f6fa;
+    }
+    
+    /* Unified Cosmic Gradient Background */
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        color: var(--light);
+        background: linear-gradient(135deg, var(--darker), var(--dark));
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+    }
+
+    /* Full-screen sections */
+    .section {
+        min-height: 100vh;
+        width: 100vw;
+        padding: 4rem 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Nebula Particle Effect */
+    .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><circle cx="10%" cy="15%" r="1" fill="white" opacity="0.3"/><circle cx="25%" cy="25%" r="1" fill="white" opacity="0.2"/><circle cx="90%" cy="15%" r="1.5" fill="white" opacity="0.3"/><circle cx="75%" cy="75%" r="1" fill="white" opacity="0.2"/><circle cx="15%" cy="85%" r="2" fill="white" opacity="0.3"/></svg>');
+        pointer-events: none;
+    }
+
+    /* Admin Welcome Section */
+    #welcome {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: radial-gradient(circle at 50% 30%, rgba(108, 92, 231, 0.2), transparent 60%);
+    }
+
+    .company-brand {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .company-brand i {
+        font-size: 3.5rem;
+        color: var(--primary);
+        margin-right: 1.5rem;
+        filter: drop-shadow(0 0 10px rgba(108, 92, 231, 0.7));
+    }
+
+    .company-name {
+        font-size: 3rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+    }
+
+    .typing-text {
+        font-size: 1.8rem;
+        margin: 2rem 0;
+        min-height: 4rem;
+    }
+
+    .typing-text span {
+        color: var(--secondary);
+        font-weight: 600;
+        border-right: 2px solid var(--secondary);
+        {% comment %} animation: blink 0.7s infinite; {% endcomment %}
+    }
+
+    .punchline {
+        font-size: 1.5rem;
+        margin-top: 3rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .punchline::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        bottom: -10px;
+        left: 0;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+
+    .punchline:hover::after {
+        transform: scaleX(1);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 3rem auto;
+    }
+
+    .stat-card {
+        background: rgba(26, 26, 46, 0.6);
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(108, 92, 231, 0.2);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        overflow: hidden; 
+        
+    }
+
+    .stat-card:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 15px 30px rgba(108, 92, 231, 0.3);
+        border-color: var(--primary);
+    }
+
+    .stat-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            to bottom right,
+            rgba(108, 92, 231, 0.1),
+            rgba(0, 206, 201, 0.1)
+        );
+        transform: rotate(45deg);
+        transition: all 0.6s ease;
+        opacity: 0;
+    }
+
+    .stat-card:hover::before {
+        opacity: 1;
+        animation: shine 1.5s;
+    }
+
+    .stat-icon {
+        font-size: 2.5rem;
+        color: var(--secondary);
+        margin-bottom: 1rem;
+        transition: all 0.4s;
+    }
+
+    .action-btn:hover .stat-icon {
+        color: var(--primary);
+        transform: rotateY(180deg) scale(1.2);
+    }
+
+    .stat-value {
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin: 0.5rem 0;
+        background: linear-gradient(to right, var(--secondary), var(--light));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .stat-label {
+        font-color: white
+        font-weight: 500;
+        font-size: 1.1rem;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 3rem auto;
+    }
+
+    .action-btn {
+        background: rgba(26, 26, 46, 0.6);
+        border-radius: 16px;
+        padding: 2rem 1rem;
+        text-align: center;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(108, 92, 231, 0.2);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        color: var(--light);
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 15px 30px rgba(108, 92, 231, 0.3);
+        border-color: var(--primary);
+    }
+
+    .action-icon {
+        font-size: 2.5rem;
+        color: var(--secondary);
+        margin-bottom: 1rem;
+        transition: all 0.4s;
+    }
+
+    .action-btn:hover .action-icon {
+        color: var(--primary);
+        transform: rotateY(180deg);
+    }
+
+    .action-text {
+        font-weight: 500;
+        font-size: 1.1rem;
+    }
+
+    /* Animations */
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0px); }
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+
+    @keyframes shine {
+        0% { transform: rotate(45deg) translate(-10%, -10%); }
+        100% { transform: rotate(45deg) translate(10%, 10%); }
+    }
+
+    /* Navigation Dots */
+    .nav-dots {
+        position: fixed;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 100;
+    }
+
+    .dot {
+        width: 12px;
+        height: 12px;
+        margin: 15px 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .dot.active {
+        background: var(--primary);
+        border-color: var(--secondary);
+        transform: scale(1.3);
+    }
+
+    @media (max-width: 768px) {
+        .stats-grid, .quick-actions {
+            grid-template-columns: 1fr;
+        }
+        
+        .company-name {
+            font-size: 2.5rem;
+        }
+        
+        .typing-text {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
+<body>
+<div class="nav-dots">
+    <div class="dot active" data-section="welcome"></div>
+    <div class="dot" data-section="dashboard"></div>
+</div>
+
+<!-- Welcome Section -->
+<section id="welcome" class="section">
+    <div class="company-brand">
+        <i class="fa-solid fa-handshake-angle"></i>
+        <h1 class="company-name">Hey, there...</h1>
+    </div>
+    
+    <div class="typing-text">
+        <span id="typed"></span>
+    </div>
+    
+    <p class="welcome-message">
+        <span class="welcome-highlight">🫡 Welcome back! The control panel bows to its master...</span>
+    </p>
+    
+    <div class="punchline">
+        Let's get things done, shall we?
+    </div>
+</section>
+
+<!-- Dashboard Section -->
+<section id="dashboard" class="section" style="background: radial-gradient(circle at 50% 70%, rgba(0, 206, 201, 0.1), transparent 60%);">
+    <div class="container">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <a href="{% url 'recuiter_all' %}" class="action-btn">
+                <i class="fas fa-briefcase stat-icon"></i>
+                <div class="stat-value">{{ recruiter_count }}</div>
+                <div class="stat-label">Total Recruiters</div>
+                <small>Manage all recruiters</small>
+            </a>
+            
+            <a href="{% url 'recuiter_pending' %}" class="action-btn">
+                <i class="fas fa-clock stat-icon"></i>
+                <div class="stat-value">{{ pending_recruiters }}</div>
+                <div class="stat-label">Pending Approvals</div>
+                <small>Review pending applications</small>
+            </a>
+            
+            <a href="{% url 'view_users' %}" class="action-btn">
+                <i class="fas fa-users stat-icon"></i>
+                <div class="stat-value">{{ user_count }}</div>
+                <div class="stat-label">Registered Users</div>
+                <small>View all user accounts</small>
+            </a>
+             
+        </div> 
+
+        <!-- Quick Actions -->
+        <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent;">
+            <i class="fas fa-bolt"></i> Quick Actions
+        </h2>
+        
+        <div class="quick-actions">
+            <a href="{% url 'recuiter_pending' %}" class="action-btn">
+                <i class="fas fa-check-circle action-icon"></i>
+                <span class="action-text">Approve Recruiters</span>
+            </a>
+            
+            <a href="{% url 'view_users' %}" class="action-btn">
+                <i class="fas fa-user-cog action-icon"></i>
+                <span class="action-text">Manage Users</span>
+            </a>
+            
+            <a href="{% url 'change_passwordadmin' %}" class="action-btn">
+                <i class="fas fa-key action-icon"></i>
+                <span class="action-text">Change Password</span>
+            </a>
+            
+            <a href="{% url 'logout' %}" class="action-btn">
+                <i class="fas fa-sign-out-alt action-icon"></i>
+                <span class="action-text">Logout</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+{% include 'footer.html' %}
+
+<script>
+    // Typing Animation
+    document.addEventListener('DOMContentLoaded', function(){
+        var typed = new Typed('#typed', {
+            strings: [
+                "Welcome back! The kingdom of data awaits your command.",
+                "Your dashboard, your rules — let’s make great things happen today!",
+                "Managing recruiters without any errors...", 
+                "Overseeing the Job Pulse platform..."    
+            ],
+            typeSpeed: 60,
+            backSpeed: 40,
+            backDelay: 1200,
+            startDelay: 300,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|',
+            smartBackspace: true
+        });
+
+        // Section Navigation
+        const dots = document.querySelectorAll('.dot');
+        const sections = document.querySelectorAll('.section');
+        
+        // Scroll to section when dot clicked
+        dots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                const target = this.getAttribute('data-section');
+                document.getElementById(target).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Update active dot on scroll
+        window.addEventListener('scroll', function() {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('data-section') === current) {
+                    dot.classList.add('active');
+                }
+            });
+        });
+        
+        // Add scroll animation to elements
+        const animateOnScroll = function() {
+            const elements = document.querySelectorAll('.stat-card, .action-btn');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        // Initialize elements with opacity 0
+        document.querySelectorAll('.stat-card, .action-btn').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease';
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); 
+    });
+</script>
+
+</body>
+{% endblock %}

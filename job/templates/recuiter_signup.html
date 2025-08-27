@@ -1,0 +1,626 @@
+{% load static %}
+
+{% block body %}
+{% include 'navigation.html' %}
+
+<title>Recruiter Signup | Job Pulse</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5649c0;
+        --secondary: #00cec9;
+        --dark: #1a1a2e;
+        --darker: #0f0e17;
+        --light: #f5f6fa;
+        --error: #ff4757;
+        --success: #00b894;
+    }
+
+    body {
+        background-color: var(--darker);
+        color: var(--light);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-image: 
+            radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.15) 0%, transparent 30%),
+            radial-gradient(circle at 75% 75%, rgba(0, 206, 201, 0.15) 0%, transparent 30%);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .signup-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 2.5rem;
+        background: rgba(26, 26, 46, 0.85);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .logo i {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .logo:hover i {
+        transform: scale(1.1);
+        color: var(--secondary);
+    }
+
+    .logo h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary) 0%, #9c27b0 50%, var(--secondary) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .welcome-message {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .welcome-message h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--light);
+    }
+
+    .form-row {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        flex: 1;
+        margin-bottom: 1.8rem;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.8rem;
+        color: rgba(255, 255, 255, 0.8);
+        transition: color 0.3s;
+    }
+
+    .form-group:hover label {
+        color: var(--secondary);
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 14px 14px 14px 42px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: var(--light);
+        transition: all 0.4s;
+    }
+
+    .input-field:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+        background: rgba(124, 77, 255, 0.05);
+        padding-left: 46px;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.4);
+        transition: all 0.3s;
+    }
+
+    .form-group:hover .input-icon,
+    .input-field:focus ~ .input-icon {
+        color: var(--secondary);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .gender-group {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 10px 15px;
+        margin-top: 8px;
+    }
+
+    .gender-options {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .gender-option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+    }
+
+    .gender-option input[type="radio"] {
+        accent-color: var(--primary);
+    }
+
+    .gender-option label {
+        margin-bottom: 0;
+        cursor: pointer;
+    }
+
+    .file-input-container {
+        position: relative;
+    }
+
+    .file-input-label {
+        display: block;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        transition: all 0.4s;
+    }
+
+    .file-input-label:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--primary);
+    }
+
+    .file-input-label i {
+        margin-right: 8px;
+    }
+
+    input[type="file"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .file-name {
+        margin-top: 8px;
+        font-size: 0.85rem;
+        color: var(--secondary);
+    }
+
+    .btn-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .btn-signup, .btn-login {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(115deg, var(--primary) 0%, #8e44ad 50%, var(--secondary) 100%);
+        background-size: 200% auto;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.05rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn-login {
+        background: linear-gradient(115deg, var(--dark) 0%, #5649c0 50%, var(--primary) 100%);
+    }
+
+    .btn-signup:hover, .btn-login:hover {
+        background-position: right center;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4), 
+                    0 0 10px rgba(0, 206, 201, 0.2);
+    }
+
+    .btn-signup i, .btn-login i {
+        transition: transform 0.3s;
+    }
+
+    .btn-signup:hover i {
+        transform: translateX(3px);
+    }
+
+    .btn-login:hover i {
+        transform: scale(1.1);
+    }
+
+    .validation-error {
+        color: var(--error);
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: none;
+    }
+    
+    .validation-success {
+        color: var(--success);
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: none;
+    }
+    
+    .input-field.error {
+        border-color: var(--error);
+        box-shadow: 0 0 0 2px rgba(255, 71, 87, 0.2);
+    }
+    
+    .input-field.success {
+        border-color: var(--success);
+        box-shadow: 0 0 0 2px rgba(0, 184, 148, 0.2);
+    }
+
+    .required-field::after {
+        content: " *";
+        color: var(--error);
+    }
+
+    @media (max-width: 768px) {
+        .signup-container {
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+        
+        .form-row {
+            flex-direction: column;
+            gap: 0;
+        }
+        
+        .gender-options {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+    }
+</style>
+
+<div class="signup-container">
+    <div class="logo">
+        <i class="fas fa-user-tie"></i>
+        <h1>Job Pulse</h1>
+        <p>Recruiter Registration</p>
+    </div>
+
+    <div class="welcome-message">
+        <h2>Join Our Platform</h2>
+        <p>Find the best talent for your company</p>
+    </div>
+
+    <form onsubmit="return validateForm();" name="signup" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label class="required-field">First Name</label>
+                <i class='bx bx-user input-icon'></i>
+                <input type="text" class="input-field" name="fname" placeholder="Enter First Name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Last Name</label>
+                <i class='bx bx-user input-icon'></i>
+                <input type="text" class="input-field" name="lname" placeholder="Enter Last Name">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="required-field">Contact Number</label>
+                <i class='bx bx-phone input-icon'></i>
+                <input type="text" class="input-field" id="contact" name="contact" placeholder="Enter 10-digit Phone Number" required>
+                <div class="validation-error" id="contact-error">Please enter a valid 10-digit phone number</div>
+                <div class="validation-success" id="contact-success">Valid phone number</div>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Company</label>
+                <i class='bx bx-buildings input-icon'></i>
+                <input type="text" class="input-field" name="company" placeholder="Enter Your Company Name" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="required-field">Email Address</label>
+            <i class='bx bx-envelope input-icon'></i>
+            <input type="email" class="input-field" id="email" name="email" placeholder="Enter Email Address" required>
+            <div class="validation-error" id="email-error">Please enter a valid email address</div>
+            <div class="validation-success" id="email-success">Valid email address</div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="required-field">Password</label>
+                <i class='bx bx-lock-alt input-icon'></i>
+                <input type="password" class="input-field" id="pwd" name="pwd" placeholder="Enter Password" required>
+                <div class="validation-error" id="pwd-error">Password must be at least 8 characters</div>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Confirm Password</label>
+                <i class='bx bx-lock input-icon'></i>
+                <input type="password" class="input-field" id="cpwd" name="cpwd" placeholder="Confirm Password" required>
+                <div class="validation-error" id="cpwd-error">Passwords do not match</div>
+                <div class="validation-success" id="cpwd-success">Passwords match</div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="required-field">Gender</label>
+                <div class="gender-group">
+                    <div class="gender-options">
+                        <div class="gender-option">
+                            <input type="radio" id="customRadioInLine1" name="gender" value="Male" required>
+                            <label for="customRadioInLine1">Male</label>
+                        </div>
+                        <div class="gender-option">
+                            <input type="radio" id="customRadioInLine2" name="gender" value="Female" required>
+                            <label for="customRadioInLine2">Female</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="validation-error" id="gender-error">Please select your gender</div>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Profile Image</label>
+                <div class="file-input-container">
+                    <div class="file-input-label">
+                        <i class='bx bx-upload'></i>
+                        <span>Choose profile image (JPG, PNG)</span>
+                    </div>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                </div>
+                <div id="file-name" class="file-name"></div>
+                <div class="validation-error" id="image-error">Please select an image file (JPG, PNG)</div>
+            </div>
+        </div>
+        
+        <div class="btn-container">
+            <button type="submit" class="btn-signup" id="submit-btn">
+                <i class='bx bx-user-plus'></i> Create Account
+            </button>
+            
+            <a href="{% url 'recuiter_login' %}" class="btn-login">
+                <i class='bx bx-log-in'></i> Already have an account? Login here
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Get form elements
+    const contactInput = document.getElementById('contact');
+    const emailInput = document.getElementById('email');
+    const pwdInput = document.getElementById('pwd');
+    const cpwdInput = document.getElementById('cpwd');
+    const imageInput = document.getElementById('image');
+    const fileName = document.getElementById('file-name');
+    const genderInputs = document.querySelectorAll('input[name="gender"]');
+    const form = document.forms.signup;
+    
+    // Show selected file name
+    imageInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            fileName.textContent = this.files[0].name;
+        } else {
+            fileName.textContent = '';
+        }
+    });
+    
+    // Validation functions
+    function validatePhone(phone) {
+        const phoneRegex = /^\d{10}$/;
+        return phoneRegex.test(phone);
+    }
+    
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    
+    function validatePassword(password) {
+        return password.length >= 8;
+    }
+    
+    function validateImage(file) {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        return file && allowedTypes.includes(file.type);
+    }
+    
+    function validateGender() {
+        let isChecked = false;
+        genderInputs.forEach(input => {
+            if (input.checked) isChecked = true;
+        });
+        return isChecked;
+    }
+    
+    // Real-time validation
+    contactInput.addEventListener('input', function() {
+        if (validatePhone(this.value)) {
+            showValidation(this, true, 'contact');
+        } else {
+            showValidation(this, false, 'contact');
+        }
+    });
+    
+    emailInput.addEventListener('input', function() {
+        if (validateEmail(this.value)) {
+            showValidation(this, true, 'email');
+        } else {
+            showValidation(this, false, 'email');
+        }
+    });
+    
+    pwdInput.addEventListener('input', function() {
+        if (validatePassword(this.value)) {
+            showValidation(this, true, 'pwd');
+            // Also validate confirmation when password changes
+            if (cpwdInput.value) {
+                if (this.value === cpwdInput.value) {
+                    showValidation(cpwdInput, true, 'cpwd');
+                } else {
+                    showValidation(cpwdInput, false, 'cpwd');
+                }
+            }
+        } else {
+            showValidation(this, false, 'pwd');
+        }
+    });
+    
+    cpwdInput.addEventListener('input', function() {
+        if (this.value === pwdInput.value && validatePassword(pwdInput.value)) {
+            showValidation(this, true, 'cpwd');
+        } else {
+            showValidation(this, false, 'cpwd');
+        }
+    });
+    
+    imageInput.addEventListener('change', function() {
+        if (validateImage(this.files[0])) {
+            showValidation(this, true, 'image');
+        } else {
+            showValidation(this, false, 'image');
+        }
+    });
+    
+    genderInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const errorElement = document.getElementById('gender-error');
+            if (validateGender()) {
+                errorElement.style.display = 'none';
+            } else {
+                errorElement.style.display = 'block';
+            }
+        });
+    });
+    
+    // Show validation status
+    function showValidation(element, isValid, fieldName) {
+        const errorElement = document.getElementById(fieldName + '-error');
+        const successElement = document.getElementById(fieldName + '-success');
+        
+        if (isValid) {
+            element.classList.remove('error');
+            element.classList.add('success');
+            if (errorElement) errorElement.style.display = 'none';
+            if (successElement) successElement.style.display = 'block';
+        } else {
+            element.classList.remove('success');
+            element.classList.add('error');
+            if (errorElement) errorElement.style.display = 'block';
+            if (successElement) successElement.style.display = 'none';
+        }
+    }
+    
+    // Form submission validation
+    function validateForm() {
+        let isValid = true;
+        
+        // Validate phone
+        if (!validatePhone(contactInput.value)) {
+            showValidation(contactInput, false, 'contact');
+            isValid = false;
+        }
+        
+        // Validate email
+        if (!validateEmail(emailInput.value)) {
+            showValidation(emailInput, false, 'email');
+            isValid = false;
+        }
+        
+        // Validate password
+        if (!validatePassword(pwdInput.value)) {
+            showValidation(pwdInput, false, 'pwd');
+            isValid = false;
+        }
+        
+        // Validate password confirmation
+        if (pwdInput.value !== cpwdInput.value) {
+            showValidation(cpwdInput, false, 'cpwd');
+            isValid = false;
+        }
+        
+        // Validate image
+        if (!validateImage(imageInput.files[0])) {
+            showValidation(imageInput, false, 'image');
+            isValid = false;
+        }
+        
+        // Validate gender
+        if (!validateGender()) {
+            document.getElementById('gender-error').style.display = 'block';
+            isValid = false;
+        }
+        
+        if (!isValid) {
+            // Scroll to first error
+            const firstError = document.querySelector('.error');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+        
+        return isValid && checkpass();
+    }
+    
+    // Original password check function
+    function checkpass() {
+        if (document.signup.pwd.value != document.signup.cpwd.value) {
+            alert('Password Does Not Match');
+            document.signup.cpwd.focus();
+            return false;
+        }
+        return true;
+    }
+</script>
+
+{% include 'footer.html' %}
+
+{% if error == "no" %}
+<script>
+    alert("Signup Successful");
+    window.location = ('{% url 'recuiter_login' %}');
+</script>
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    alert("Something Went Wrong, Try Again...");
+</script>
+{% endif %}
+
+{% endblock %}

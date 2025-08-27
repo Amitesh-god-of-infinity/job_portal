@@ -1,0 +1,243 @@
+{% load static %}
+
+{% block body %}
+
+{% include 'admin_navigation.html' %}
+
+<title>All Recruiters | Job Pulse Admin</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5649c0;
+        --secondary: #00cec9;
+        --dark: #1a1a2e;
+        --darker: #0f0e17;
+        --light: #f5f6fa;
+    }
+    
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, var(--darker), var(--dark));
+        color: var(--light);
+        min-height: 100vh;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .container {
+        width: 95%;
+        max-width: 1400px;
+        margin: 200px auto;
+        padding: 0 15px;
+    }
+    
+    .page-title {
+        text-align: center;
+        margin: 2rem 0;
+        font-size: 2.5rem;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 15px rgba(108, 92, 231, 0.3);
+    }
+    
+    .table-container {
+        background: rgba(26, 26, 46, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid rgba(108, 92, 231, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        overflow-x: auto;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        color: var(--light);
+    }
+    
+    th {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--dark) 100%);
+        padding: 1.2rem 0.8rem;
+        text-align: left;
+        font-weight: 600;
+        color: var(--light);
+        position: sticky;
+        top: 0;
+    }
+    
+    td {
+        padding: 1rem 0.8rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    tr {
+        transition: all 0.3s ease;
+    }
+    
+    tr:hover {
+        background: rgba(108, 92, 231, 0.1);
+    }
+    
+    .status-active {
+        color: #00b894;
+        font-weight: 600;
+    }
+    
+    .status-pending {
+        color: #fdcb6e;
+        font-weight: 600;
+    }
+    
+    .action-btn {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin: 0.2rem;
+        text-align: center;
+    }
+    
+    .btn-change {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        border: none;
+    }
+    
+    .btn-change:hover {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+    }
+    
+    .btn-delete {
+        background: linear-gradient(135deg, #e17055 0%, #d63031 100%);
+        color: white;
+        border: none;
+    }
+    
+    .btn-delete:hover {
+        background: linear-gradient(135deg, #d63031 0%, #e17055 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(214, 48, 49, 0.4);
+    }
+    
+    .recruiter-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--primary);
+        box-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
+    }
+    
+    .table-header {
+        position: relative;
+    }
+    
+    .table-header::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+    }
+    
+    .no-data {
+        text-align: center;
+        padding: 2rem;
+        color: var(--secondary);
+        font-style: italic;
+    }
+    
+    @media (max-width: 768px) {
+        .container {
+            width: 100%;
+            padding: 0 10px;
+        }
+        
+        th, td {
+            padding: 0.8rem 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+    }
+</style>
+
+<body>
+<div class="container">
+    <h1 class="page-title">
+        <i class="fas fa-users"></i> All Recruiters
+    </h1>
+    
+    <div class="table-container">
+        <table id="example">
+            <thead>
+                <tr class="table-header">
+                    <th>S. No.</th>
+                    <th>Full Name</th>
+                    <th>Email ID</th>
+                    <th>Contact</th>
+                    <th>Gender</th>
+                    <th>Company</th>
+                    <th>Image</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.user.first_name}} {{i.user.last_name}}</td>
+                    <td>{{i.user.username}}</td>
+                    <td>{{i.mobile}}</td>
+                    <td>{{i.gender}}</td>
+                    <td>{{i.company}}</td>
+                    <td><img src="{{i.image.url}}" class="recruiter-img" alt="{{i.user.first_name}}"></td>
+                    <td>
+                        {% if i.status == "active" %}
+                            <span class="status-active"><i class="fas fa-check-circle"></i> Active</span>
+                        {% else %}
+                            <span class="status-pending"><i class="fas fa-clock"></i> Pending</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'change_status' i.id %}" class="action-btn btn-change">
+                            <i class="fas fa-exchange-alt"></i> Status
+                        </a>
+                        <a href="{% url 'delete_recuiter' i.user.id %}" class="action-btn btn-delete" onclick="return confirm('Are you sure you want to delete this recruiter?')">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="no-data">
+                        <i class="fas fa-users-slash" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>No recruiters found</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+
+</body>
+
+{% endblock %}

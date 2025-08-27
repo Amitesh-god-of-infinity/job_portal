@@ -1,0 +1,281 @@
+{% extends 'user_navigation.html' %}
+{% block content %}
+
+<title>Change Profile Image | Job Pulse</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5649c0;
+        --secondary: #00cec9;
+        --dark: #1a1a2e;
+        --darker: #0f0e17;
+        --light: #f5f6fa;
+        --error: #ff4757;
+        --success: #00b894;
+    }
+
+    body {
+        background: linear-gradient(135deg, var(--darker), var(--dark));
+        color: var(--light);
+        min-height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        padding: 0;
+        margin: 0;
+    }
+
+    .profile-container {
+        max-width: 500px;
+        margin: 200px auto;
+        padding: 2.5rem;
+        background: rgba(26, 26, 46, 0.85);
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(108, 92, 231, 0.2);
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .profile-header i {
+        font-size: 2.8rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+        filter: drop-shadow(0 0 10px rgba(108, 92, 231, 0.5));
+    }
+
+    .profile-header h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .current-image {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .current-image label {
+        display: block;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        color: var(--light);
+    }
+
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary);
+        box-shadow: 0 0 20px rgba(108, 92, 231, 0.4);
+        transition: all 0.3s ease;
+    }
+
+    .profile-img:hover {
+        transform: scale(1.05);
+        border-color: var(--secondary);
+        box-shadow: 0 0 25px rgba(0, 206, 201, 0.5);
+    }
+
+    .file-input-container {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .file-input-container label {
+        display: block;
+        margin-bottom: 0.8rem;
+        font-weight: 600;
+        color: var(--light);
+    }
+
+    .file-input-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .custom-file-input {
+        width: 100%;
+        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: var(--light);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .custom-file-input:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--primary);
+    }
+
+    .custom-file-input::file-selector-button {
+        padding: 8px 16px;
+        margin-right: 15px;
+        background: linear-gradient(to right, var(--primary), var(--primary-dark));
+        border: none;
+        border-radius: 6px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .custom-file-input::file-selector-button:hover {
+        background: linear-gradient(to right, var(--primary-dark), var(--primary));
+        transform: translateY(-2px);
+    }
+
+    .btn-update {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+    }
+
+    .btn-update:hover {
+        background: linear-gradient(to right, var(--secondary), var(--primary));
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+    }
+
+    .btn-update:active {
+        transform: translateY(0);
+    }
+
+    .error-message {
+        text-align: center;
+        margin-top: 1.5rem;
+        padding: 12px;
+        background: rgba(255, 71, 87, 0.1);
+        border: 1px solid var(--error);
+        border-radius: 8px;
+        color: var(--error);
+        font-weight: 500;
+    }
+
+    .success-message {
+        text-align: center;
+        margin-top: 1.5rem;
+        padding: 12px;
+        background: rgba(0, 184, 148, 0.1);
+        border: 1px solid var(--success);
+        border-radius: 8px;
+        color: var(--success);
+        font-weight: 500;
+    }
+
+    @media (max-width: 576px) {
+        .profile-container {
+            margin: 80px 20px;
+            padding: 2rem 1.5rem;
+        }
+        
+        .profile-header h2 {
+            font-size: 1.5rem;
+        }
+        
+        .profile-img {
+            width: 120px;
+            height: 120px;
+        }
+    }
+</style>
+
+<div class="profile-container">
+    <div class="profile-header">
+        <i class="fas fa-user-circle"></i>
+        <h2>Update Your Profile Image</h2>
+        <p>Make a great first impression with a professional photo</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="current-image">
+            <label>Current Profile Image</label>
+            {% if student.image %}
+                <img src="{{ student.image.url }}" class="profile-img" alt="Current Profile Image">
+            {% else %}
+                <img src="/media/def.jpg" class="profile-img" alt="Default Profile Image">
+            {% endif %}
+        </div>
+
+        <div class="file-input-container">
+            <label for="image">Select New Image</label>
+            <div class="file-input-wrapper">
+                <input type="file" name="image" id="image" accept="image/*" required class="custom-file-input">
+            </div>
+        </div>
+
+        <button type="submit" class="btn-update">
+            <i class="fas fa-sync-alt"></i> Update Profile Image
+        </button>
+    </form>
+
+    {% if error %}
+        <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i> {{ error }}
+        </div>
+    {% endif %}
+    
+    {% if success %}
+        <div class="success-message">
+            <i class="fas fa-check-circle"></i> {{ success }}
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('image');
+        const profileImg = document.querySelector('.profile-img');
+        
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    profileImg.src = e.target.result;
+                }
+                
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+        
+        // Add animation to the container on load
+        const container = document.querySelector('.profile-container');
+        container.style.animation = 'fadeIn 0.6s ease-out';
+    });
+</script>
+
+{% include 'footer.html' %}
+
+{% endblock %}

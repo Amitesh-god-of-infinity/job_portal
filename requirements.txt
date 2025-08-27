@@ -1,0 +1,27 @@
+# Django Framework
+Django>=5.0,<6.0
+
+# Django REST Framework (for APIs if needed)
+djangorestframework>=3.15.0
+
+# Deployment & Server
+gunicorn>=21.2.0
+whitenoise>=6.6.0
+
+# Database (SQLite comes built-in, but adding support for PostgreSQL too)
+psycopg2-binary>=2.9.9
+
+# Environment Variables Handling
+python-decouple>=3.8
+
+# Utilities
+asgiref>=3.7.2
+sqlparse>=0.5.0
+tzdata>=2024.1
+
+# For Handling Forms & Authentication (optional but common in portals)
+django-crispy-forms>=2.1
+crispy-bootstrap5>=0.7
+
+# For Security & CORS (if needed in APIs)
+django-cors-headers>=4.4.0
