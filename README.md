@@ -80,29 +80,30 @@ http://127.0.0.1:8000/
 
 📸 Screenshots 
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f50d8892-77a3-40fe-abff-27b869a3678f" />
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ff0f8f05-86e7-40e8-81ba-13a59d326926" />
+<img width="1919" height="986" alt="Screenshot 2025-08-24 031653" src="https://github.com/user-attachments/assets/e805a36c-0082-409b-8aad-8713eea2349b" />
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0b775950-13e4-4fd3-8dc0-8d6386c44d2b" />
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5e202264-8126-43d5-9d36-6c9aa4992f0b" />
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5f433dec-bbc0-4f6a-b836-8ae4150a421d" />
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ec4a2e68-4bf3-4efc-9f74-0722683dff7a" />
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3d59a4f7-d904-4e3a-93ef-c33f5e0f5520" />
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/d520ff48-3905-48ef-a7b1-498301aa0bbf" />
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0d47b83a-3c97-4df4-808f-3526857a8b3c" />
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e6b23f13-1203-4525-ad73-aff4dec7cbe5" />
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/dba39107-f954-4887-9fab-e3570de4fd42" />
+<img width="1920" height="1080" alt="Screenshot 2025-08-24 034629" src="https://github.com/user-attachments/assets/e3789d6a-dc05-4667-b017-856e239a0219" />
 
 
+<img width="1920" height="1080" alt="Screenshot 2025-08-24 034709" src="https://github.com/user-attachments/assets/36fecb4d-5ec6-4df4-82d2-ae214358afa5" />
+
+<img width="1920" height="1080" alt="Screenshot 2025-08-24 034743" src="https://github.com/user-attachments/assets/9f7196f7-afb7-458d-bfa2-706f78e5437f" />
+
+<img width="1920" height="1080" alt="Screenshot 2025-08-24 034743" src="https://github.com/user-attachments/assets/9a528a8e-58e7-4eca-98ef-cf0fe0c07435" />
+
+<img width="1920" height="1080" alt="Screenshot 2025-08-24 034935" src="https://github.com/user-attachments/assets/1538b8c8-f544-41e0-b0ec-08fea7e195eb" />
+
+<img width="1920" height="1080" alt="Screenshot 2025-08-24 035004" src="https://github.com/user-attachments/assets/bf9b3bd4-4b67-434a-8d35-21d3e7237544" />
+
+
+<img width="1920" height="1080" alt="Screenshot 2025-08-24 035051" src="https://github.com/user-attachments/assets/393b46fc-166d-4083-b1e4-37c41e7e0b36" />
+
+
+<img width="1920" height="1080" alt="Screenshot 2025-08-24 035119" src="https://github.com/user-attachments/assets/aeb1df6d-6632-4121-ac6a-b5d9148c0e37" />
+
+
+<img width="1920" height="1080" alt="Screenshot 2025-08-24 035200" src="https://github.com/user-attachments/assets/32105d53-4a7d-47bc-abda-603c129794e1" />
 
 
 🎯 Objectives
@@ -149,3 +150,4 @@ Claim the code as your own work
 Any use of this project without explicit written permission from the author is strictly prohibited.
 
 The project is provided for demonstration and educational purposes only, without any warranty of any kind.
+
