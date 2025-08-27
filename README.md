@@ -81,8 +81,6 @@ http://127.0.0.1:8000/
 📸 Screenshots 
 
 
-<img width="1919" height="986" alt="Screenshot 2025-08-24 031653" src="https://github.com/user-attachments/assets/e805a36c-0082-409b-8aad-8713eea2349b" />
-
 <img width="1920" height="1080" alt="Screenshot 2025-08-24 034629" src="https://github.com/user-attachments/assets/e3789d6a-dc05-4667-b017-856e239a0219" />
 
 
@@ -150,4 +148,5 @@ Claim the code as your own work
 Any use of this project without explicit written permission from the author is strictly prohibited.
 
 The project is provided for demonstration and educational purposes only, without any warranty of any kind.
+
 
