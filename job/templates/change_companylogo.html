@@ -4,54 +4,71 @@
 
 {% include 'recuiter_navigation.html' %}
 
-<marquee behavior="alternate" style="font-family: 'Monotype Corsiva'; font-size:25px; color:lightgreen; background-color:black; font-weight:bold; margin-top:1%">
-   Change Company Logo
-</marquee>
-<hr>
-<form class="container mt-5" method="post" enctype="multipart/form-data">
+<title>Change Company Logo | Job Pulse</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="{% static 'css/change_companylogo.css' %}">
+
+<div class="cosmic-header">
+    <div class="header-content">
+        <div class="logo-icon-wrapper">
+            <i class="fas fa-image"></i>
+        </div>
+        <h2>Update Your Brand Identity</h2>
+        <span class="header-subtext">Visual identity matters in the digital world</span>
+    </div>
+</div>
+
+<form class="form-container" method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
-    <div class="form-row">
-        <div class="form-group col-md-12" >
-            <label>Job Title:</label>
-            <input type="text" readonly class="form-control" name="jobtitle" value="{{job.title}}" required>
+    <div class="form-group">
+        <label for="jobtitle">Job Title:</label>
+        <input type="text" id="jobtitle" readonly class="form-input" name="jobtitle" value="{{job.title}}" required>
+    </div>
+
+    <div class="current-logo">
+        <label>Current Logo Preview</label>
+        <img src="{{job.image.url}}" alt="{{job.title}} Logo">
+    </div>
+
+    <div class="form-group">
+        <label for="logo">Upload New Logo:</label>
+        <div class="file-input-wrapper">
+            <input type="file" id="logo" class="custom-file-input" name="logo" accept="image/*" required>
         </div>
     </div>
 
-
-    <div class="form-row">
-
-        <div class="form-group col-md-12" >
-            <img src="{{job.image.url}}" width="120" height="90">
-        </div>
+    <div class="preview-container" id="preview-container">
+        <h4>New Logo Preview:</h4>
+        <img id="image-preview" src="" alt="Logo Preview">
     </div>
 
-    <div class="form-row">
-
-        <div class="form-group col-md-12" >
-            <label>Company Logo:</label>
-            <input type="file" class="form-control" name="logo" value="{{job.location}}" required>
-        </div>
-    </div>
-
-    </div>
-<input type="submit" value="Submit" class="btn btn-primary my-3" style="width:200px">
+    <button type="submit" class="btn-submit">
+        <i class="fas fa-sync-alt"></i> Update Logo
+    </button>
 </form>
 
-{% include 'footer.html' %}
+<script src = "{% static 'js/change_companylogo.js' %}"></script>
 
+<!-- Notification Messages -->
 {% if error == "no" %}
 <script>
-    alert("Company Logo has been Updated Successfully")
-    window.location = ('{% url 'change_companylogo' job.id %}')
+    setTimeout(function() {
+        alert("Company Logo has been Updated Successfully");
+        window.location = ('{% url 'change_companylogo' job.id %}');
+    }, 100);
 </script>
 {% endif %}
 
 {% if error == "yes" %}
 <script>
-    alert("Somthing Wrong, Try Again...")
+    setTimeout(function() {
+        alert("Something Went Wrong, Try Again...");
+    }, 100);
 </script>
 {% endif %}
 
-{% endblock %}
+{% include 'footer.html' %}
 
+{% endblock %}

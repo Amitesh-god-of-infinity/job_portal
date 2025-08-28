@@ -4,43 +4,64 @@
 
 {% include 'admin_navigation.html' %}
 
-<marquee style="font-family: 'Monotype Corsiva'; font-size:25px; color:darkcyan; background-color:black; font-weight:bold; margin-top:1%">
-        View Recruiter - Rejected
-</marquee>
-<hr>
+<title>Rejected Recruiters | Job Pulse</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="{% static 'css/recruiter_rejected.css' %}"> 
+
+<div class="page-header">
+    <h1><i class="fas fa-user-times"></i> View Rejected Recruiters</h1>
+</div>
 
 <div class="container">
-<table class="table table-hover " id="example">
-    <thead>
-    <tr style="background-color: lightgreen; color : black">
-        <th>S. No.</th>
-        <th>Full Name</th>
-        <th>Email ID</th>
-        <th>Contact</th>
-        <th>Gender</th>
-        <th>Company</th>
-        <th>Image</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody style="background-color:yellow; color: black">
-    {% for i in data %}
-    <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{i.user.first_name}} {{i.user.last_name}}</td>
-        <td>{{i.user.username}}</td>
-        <td>{{i.mobile}}</td>
-        <td>{{i.gender}}</td>
-        <td>{{i.company}}</td>
-        <td><img src="{{i.image.url}}" style="100px ; height : 100px ; border-radius:50%"></td>
-        <td>{{i.status}}</td>
-        <td><a href="{% url 'change_status' i.id %}" class="btn btn-success">Change Status</a> </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    <div class="table-wrapper">
+        {% if data %}
+        <table class="data-table" id="recruiters-table">
+            <thead>
+                <tr>
+                    <th>S. No.</th>
+                    <th>Full Name</th>
+                    <th>Email ID</th>
+                    <th>Contact</th>
+                    <th class="mobile-hide">Gender</th>
+                    <th>Company</th>
+                    <th>Image</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.user.first_name}} {{i.user.last_name}}</td>
+                    <td>{{i.user.username}}</td>
+                    <td>{{i.mobile}}</td>
+                    <td class="mobile-hide">{{i.gender}}</td>
+                    <td>{{i.company}}</td>
+                    <td><img src="{{i.image.url}}" class="recruiter-img" alt="{{i.user.first_name}} {{i.user.last_name}}"></td>
+                    <td>
+                        <span class="status-badge status-rejected">
+                            <i class="fas fa-ban"></i> {{i.status}}
+                        </span>
+                    </td>
+                    <td><a href="{% url 'change_status' i.id %}" class="btn btn-success"><i class="fas fa-sync-alt"></i> Change Status</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-user-slash"></i>
+            <h3>No Rejected Recruiters</h3>
+            <p>There are no recruiters with rejected status at the moment.</p>
+        </div>
+        {% endif %}
+    </div>
 </div>
+
+<script src="{% static 'js/recruiter_rejected.js' %}"></script>
+
 
 {% include 'footer.html' %}
 {% endblock %}
